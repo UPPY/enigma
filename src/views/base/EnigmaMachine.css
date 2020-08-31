@@ -1,0 +1,12 @@
+.enigma-machine-root {
+    position: relative;
+    width: 100%;
+}
+.enigma-io {
+    width: 60%;
+    float: left;
+}
+.enigma-rotor-array {
+    width: 40%;
+    float: right;
+}

@@ -1,0 +1,56 @@
+.rotor-wheel {
+    display: inline-grid;
+    margin-left: 5px;
+    text-align: center;
+}
+.rotor-wheel-unused {
+    padding-top: 28px;
+}
+.rotor-display {
+    border-radius: 0.5em;
+    font-family: "Verdana", monospace;
+    padding: 0.15em;
+    background: black;
+    width: 80px;
+    height: 56px;
+    text-align: center;
+    padding-top: 24px;
+    float: left;
+}
+.rotor-active-display {
+    background: black;
+    color: #eee0d3;
+}
+.rotor-inactive-display {
+    background: gray;
+    color: #eee0d3;
+}
+.rotor-nav-display {
+    border-radius: 0.5em;
+    padding: 0.15em;
+    background: black;
+    width: 60px;
+    height: 56px;
+    text-align: center;
+    padding-top: 24px;
+    float: left;
+    margin-left: 10px;
+    color: #eee0d3;
+    font-weight: bolder;
+    font-size: 24px;
+    cursor: pointer;
+}
+.rotor-no-nav-cursor {
+    cursor: not-allowed;
+}
+.rotor-digit {
+    vertical-align: middle;
+    position: relative;
+    font-weight: bolder;
+    -moz-border-radius: 0 0.2em 0.2em 0;
+    -webkit-border-radius: 0 0.2em 0.2em 0;
+    -o-border-radius: 0 0.2em 0.2em 0;
+    -ms-border-radius: 0 0.2em 0.2em 0;
+    -khtml-border-radius: 0 0.2em 0.2em 0;
+    border-radius: 0 0.2em 0.2em 0;
+}
