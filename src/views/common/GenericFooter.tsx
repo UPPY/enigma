@@ -33,7 +33,7 @@ export interface IGenericFooterProps {
  */
 export const GenericFooter: React.FC<IGenericFooterProps> = (props: IGenericFooterProps) => {
 
-    const COPYRIGHT = `© 2020 IQ, Inc.`;
+    const COPYRIGHT = `© Developed by UPENDER PARAVASTU`;
     const {links, hasCopyRight} = props;
     return <div className = 'footer-root'>
         <nav>

@@ -1,6 +1,16 @@
 .enigma-message-display {
-    min-height: 100px;
-    min-width: 100px;
-    background-color: red;
+    display: block;
+    background: linear-gradient(45deg, #57003f 0%,#f57453 100%);
     color: #ffffff;
+    width: calc(100% - 2em);
+    height: calc(100% - 3em);
+    font: 2em bolder verdana;
+    text-align: center;
+    padding: 2em 1em 1em 1em;
+    white-space: pre-wrap;      /* CSS3 */   
+    white-space: -moz-pre-wrap; /* Firefox */    
+    white-space: -pre-wrap;     /* Opera <7 */   
+    white-space: -o-pre-wrap;   /* Opera 7 */    
+    word-wrap: break-word; 
+    word-break: break-all;
 }

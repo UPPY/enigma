@@ -10,3 +10,6 @@ div.enigma-app {
   grid-template-rows: auto 1fr auto;
   background: url('/assets/app-bg.jpg');
 }
+.enigma-app-header {
+  max-height: 80px;
+}

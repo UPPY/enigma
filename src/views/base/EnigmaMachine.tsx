@@ -60,19 +60,20 @@ export const EnigmaMachine = () => {
     /**
      * Create the UI for the enigma machine
      */
-    return <div className = "enigma-machine-root">
-        <div className = 'enigma-io'>
-            <DisplayBoard/>
-            <p></p>
-            <InputKeyBoard/>
-
-        </div>
-        <div className = 'enigma-rotor-and-display'>
-            <ConfiguredRotorSet/>
-            <p></p>
-            <CumulativeOutputDigitalCapture/>
-        </div>
-    </div>;
+    return (<div className = "enigma-machine-root">
+            <div className = 'enigma-io-display'>
+                <DisplayBoard/>
+             </div> 
+            <div className = 'enigma-rotor-set'>
+                <ConfiguredRotorSet/>
+             </div>   
+             <div className = 'enigma-io-keyboard'>
+                <InputKeyBoard/>
+            </div>  
+             <div className = 'enigma-digital-display'>
+                <CumulativeOutputDigitalCapture/>
+            </div>
+        </div>);
 };
 
 
