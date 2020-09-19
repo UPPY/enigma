@@ -8,4 +8,5 @@ div.enigma-app {
   display: grid;
   height: 100vh;
   grid-template-rows: auto 1fr auto;
+  background: url('/assets/app-bg.jpg');
 }

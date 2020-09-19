@@ -1,56 +1,90 @@
-import React, {useState, useEffect, useCallback} from 'react';
+import React from 'react';
 import './Rotor.css';
 import { Constants } from '../../../utils/Constants';
+import { EnigmaMachineState } from '../../../stores/Stores';
+import { Dispatch } from 'redux';
+import { connect } from 'react-redux';
 
 /*
     The properties of the rotor
 */
-export interface IRotorProps {
+export interface IRotorOwnProps {
     /**
-     * The prewired internal configuration for the rotor
+     * The index of the rotor
      */
-    internalWiring: Array<string>
-
+    rotorIndex: number;
     /**
-     * The initial aplhabet setting for this rotor
+     * Is the rotor selected
      */
-    initialAlphabet: string;
-
-    selected: boolean
+    selected: boolean;
 }
 
 /**
- * The current state of the rotor based on initial state and rotations
+ * The state props for the rotor
  */
-export interface IRotorState {
+export interface IRotorStateProps {
     /**
-     * The active key in display
+     * The current alphabet
      */
-    currentAplhabet: string;
+    currentAlphabet: string;
 }
+
+/**
+ * The state props for the rotor
+ */
+export interface IRotorDispatchProps {
+    /**
+     * Handle the rotate of the rotor
+     */
+    onRotate?: (index: number, direction: 1 | -1) => void
+}
+
+type IRotorProps = IRotorOwnProps & IRotorStateProps & IRotorDispatchProps;
+
+/**
+ * Map the state to rotor props
+ * @param state 
+ * @param ownProps 
+ */
+const mapStateToRotorProps = (state: EnigmaMachineState, ownProps: IRotorOwnProps) => {
+    if (ownProps.selected) {
+        let rotor = state.rotorConfig[ownProps.rotorIndex!];
+        let index = (Constants.REVERSE_MAPPING[rotor.initialPostion] + rotor.offset) % 26;
+        return {
+            currentAlphabet: Constants.ALPHABETS[index]
+        };
+    } else {
+        return {
+            currentAlphabet: '$'
+        }
+    }
+}
+
+/**
+ * Map the dispatch action to rotate reducer
+ * @param dispatch 
+ */
+const mapDispatchToRotorProps= (dispatch: Dispatch,  ownProps: IRotorOwnProps) => {
+    return {
+        onRotate: (index: number, direction: 1 | -1) => {
+            if (ownProps.selected) {
+                dispatch({
+                    type: 'TURN_ROTOR_AT_GIVEN_POSITION',
+                    payload : {
+                        rotorIndex: index,
+                        direction: direction
+                    }
+                })
+            }
+        }
+    };
+}
+
 
 /*
     The functional component representing the Rotor used in the enigma machine
 */
-export const Rotor: React.FC<IRotorProps> = (props: IRotorProps) => {
-
-    /**
-     * Set the alphabet in the state
-     */
-    const [currentAlphabet, setCurrentAlphabet] = useState(props.initialAlphabet);
-
-    /**
-     * Handle the rotate of a rotor
-     */
-    const handleRotate = useCallback((direction) => {
-        setCurrentAlphabet((prevAplhabet) => { 
-            let index = Constants.ALPHABETS.indexOf(prevAplhabet);
-            if (direction === -1 && index == 0) {
-                return 'Z';
-            }
-            return Constants.ALPHABETS[(index + direction) % 26];
-        });
-    }, [currentAlphabet]);
+export const Rotor = (props: IRotorProps) => {
 
     let cssStyleWheel = (props.selected) ? "rotor-active-display" : "rotor-inactive-display";
     let cssStyleNav = (!props.selected) ? "rotor-no-nav-cursor" : "";
@@ -58,17 +92,17 @@ export const Rotor: React.FC<IRotorProps> = (props: IRotorProps) => {
         {
             <div className = "rotor-wheel">
                 <div className = { `rotor-nav-display ${cssStyleNav}`} onClick = { 
-                    () => { handleRotate(1) }
+                    () => { props.onRotate!(props.rotorIndex, 1) }
                 }> 
                     <div className = "rotor-digit">&#8593;</div>
                 </div> 
                 <div className = {`rotor-display ${cssStyleWheel}`}> 
                     <div className = "rotor-digit">
-                        {currentAlphabet} 
+                        {props.currentAlphabet} 
                     </div>
                 </div> 
                 <div className = { `rotor-nav-display ${cssStyleNav}`} onClick = {
-                    () => { handleRotate(-1) }
+                    () => { props.onRotate!(props.rotorIndex, -1) }
                 }> 
                     <div className = "rotor-digit">&#8595;</div>
                 </div> 
@@ -76,3 +110,8 @@ export const Rotor: React.FC<IRotorProps> = (props: IRotorProps) => {
         }
     </div>;
 }
+
+/**
+ * The configured rotor component
+ */
+export const ConfiguredRotor = connect(mapStateToRotorProps, mapDispatchToRotorProps)(Rotor);

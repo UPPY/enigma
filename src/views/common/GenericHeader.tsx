@@ -42,8 +42,10 @@ export interface IGenericHeaderProps {
  * The generic footer to be use by all react applications
  */
 export const GenericHeader: React.FC<IGenericHeaderProps> = (props: IGenericHeaderProps) => {
-    const {title, subtitle, menuItems} = props;
+    const {title, subtitle } = props;
     return <div className = 'header-root'>
+            <div className = 'enigma-logo'>
+            </div>
             <h1>{title}</h1>
             {
                 (!!subtitle) ? <h3>{subtitle}</h3> : ''

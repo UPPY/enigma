@@ -1,41 +1,78 @@
-import * as React from 'react';
-import { Keyboard } from './components/Keyboard';
-import { Rotor } from './components/Rotor';
+import React from 'react';
+import { Keyboard, IKeyboardProps } from './components/Keyboard';
 import './EnigmaMachine.css';
-import { Constants } from '../../utils/Constants';
+import { ConfiguredRotorSet } from './components/RotorSet';
+import { EnigmaMachineState } from '../../stores/Stores';
+import { Dispatch } from 'redux';
+import { connect } from 'react-redux';
+import { CumulativeOutputDigitalCapture } from './components/OutputDigitalCapture'
 
-/*-
- The properties passed to the enigma machine initialization
-*/
-export interface IEnigmaMachineProps  {
-    // Should be 3 out of 5 pre wired rotors
-    selectedRotors: Array<boolean>
-    // The initial configuration of the 3 selected rotors
-    initialConfiguration: string
+/**
+ * Map the application state to keyboard input
+ * @param state 
+ */
+const mapStateToInputKeyboardProps = (state:EnigmaMachineState): IKeyboardProps => {
+    return {
+        mode: 'input'
+    };
+};
 
-}
+/**
+ * Map the application state to input keyboard
+ * @param state 
+ */
+const mapStateToOutputKeyboardProps = (state:EnigmaMachineState): IKeyboardProps => {
+    return {
+        mode: 'output',
+        highlight: state.output
+    };
+};
+
+/**
+ * Map the application state to display board
+ * @param dispatch 
+ */
+const mapDispatchToInputKeyboardProps = (dispatch: Dispatch)  => {
+    return {
+        transitionEnigmaMachine: (key: string) => {
+            dispatch({
+                type: 'CALCULATE_ENIGMA_STATE',
+                payload: {
+                    input: key
+                }
+            });
+        }
+    };
+};
+/**
+ * Input board
+ */
+const InputKeyBoard = connect(mapStateToInputKeyboardProps, mapDispatchToInputKeyboardProps)(Keyboard);
+/**
+ * Output board
+ */
+const DisplayBoard = connect(mapStateToOutputKeyboardProps)(Keyboard);
 
 /**
  * The functional component representing the Overall UI for the enigma machine
  */
-export const EnigmaMachine: React.FC<IEnigmaMachineProps> = (props: IEnigmaMachineProps) => {
-    let rotorPositions = props.initialConfiguration.split("");
-    let counter = 0;
+export const EnigmaMachine = () => {
+    /**
+     * Create the UI for the enigma machine
+     */
     return <div className = "enigma-machine-root">
         <div className = 'enigma-io'>
-            <Keyboard mode = 'output'></Keyboard>
+            <DisplayBoard/>
             <p></p>
-            <Keyboard mode = 'input'></Keyboard>
+            <InputKeyBoard/>
+
         </div>
-        <div className = 'enigma-rotor-array'>
-        {
-            Constants.INTERNAL_WIRINGS.map((wiring, index) => {
-                    var selected = props.selectedRotors[index];
-                    return (<Rotor internalWiring = {wiring} 
-                        initialAlphabet = {(selected) ? rotorPositions[counter++] : '-1'}
-                        selected = {selected}></Rotor>);
-            })
-        }
+        <div className = 'enigma-rotor-and-display'>
+            <ConfiguredRotorSet/>
+            <p></p>
+            <CumulativeOutputDigitalCapture/>
         </div>
     </div>;
 };
+
+
