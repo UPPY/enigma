@@ -45,6 +45,11 @@ export interface RotorStoreState {
      */
     cumulativeOutput: string;
 
+    /**
+     * Set/Get the current encryption state
+     */
+    encryptionInProgress: boolean;
+
   }
 
   /**

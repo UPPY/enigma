@@ -27,6 +27,10 @@ export interface IRotorStateProps {
      * The current alphabet
      */
     currentAlphabet: string;
+    /**
+     * Is the enigma machine enabled
+     */
+    enabled?: boolean
 }
 
 /**
@@ -47,14 +51,19 @@ type IRotorProps = IRotorOwnProps & IRotorStateProps & IRotorDispatchProps;
  * @param ownProps 
  */
 const mapStateToRotorProps = (state: EnigmaMachineState, ownProps: IRotorOwnProps) => {
+    let ret = {
+        enabled: !state.encryptionInProgress
+    };
     if (ownProps.selected) {
         let rotor = state.rotorConfig[ownProps.rotorIndex!];
         let index = (Constants.REVERSE_MAPPING[rotor.initialPostion] + rotor.offset) % 26;
         return {
+            ...ret,
             currentAlphabet: Constants.ALPHABETS[index]
         };
     } else {
         return {
+            ...ret,
             currentAlphabet: '$'
         }
     }
@@ -86,13 +95,13 @@ const mapDispatchToRotorProps= (dispatch: Dispatch,  ownProps: IRotorOwnProps) =
 */
 export const Rotor = (props: IRotorProps) => {
 
-    let cssStyleWheel = (props.selected) ? "rotor-active-display" : "rotor-inactive-display";
-    let cssStyleNav = (!props.selected) ? "rotor-no-nav-cursor" : "";
+    let cssStyleWheel = (props.enabled && props.selected) ? "rotor-active-display" : "rotor-inactive-display";
+    let cssStyleNav = (!props.enabled || !props.selected) ? "rotor-no-nav-cursor" : "";
     return <div className = "rotor-wheel">
         {
             <div className = "rotor-wheel">
                 <div className = { `rotor-nav-display ${cssStyleNav}`} onClick = { 
-                    () => { props.onRotate!(props.rotorIndex, 1) }
+                    () => { props.enabled && props.onRotate!(props.rotorIndex, 1) }
                 }> 
                     <div className = "rotor-digit">&#8593;</div>
                 </div> 
@@ -102,7 +111,7 @@ export const Rotor = (props: IRotorProps) => {
                     </div>
                 </div> 
                 <div className = { `rotor-nav-display ${cssStyleNav}`} onClick = {
-                    () => { props.onRotate!(props.rotorIndex, -1) }
+                    () => { props.enabled && props.onRotate!(props.rotorIndex, -1) }
                 }> 
                     <div className = "rotor-digit">&#8595;</div>
                 </div> 

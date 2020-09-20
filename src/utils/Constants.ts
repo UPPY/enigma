@@ -51,6 +51,7 @@ export class Constants {
 
     public static DEFAULT_STORE_STATE: EnigmaRootState = {
         rootState: {
+            encryptionInProgress: false,
             output: '',
             cumulativeOutput: '',
             selectedRotors: [false, true, true, true, false],

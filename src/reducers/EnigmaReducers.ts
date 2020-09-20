@@ -41,6 +41,30 @@ export const calculateEnigmaMachineState = (
             return {
                 ...enigmaState, rotorConfig: [...rotors]
             }; 
+        case 'START_ENIGMA_ENCRYPTION':
+             return {
+                    ...enigmaState,
+                    encryptionInProgress: true
+                };   
+        case 'RESET_ENIGMA_ENCRYPTION':
+            let initialRotorConfig = resetState(enigmaState.rotorConfig);
+            return {
+                    ...enigmaState,
+                    rotorConfig: initialRotorConfig,
+                    cumulativeOutput: '',
+                    output: '',
+                    encryptionInProgress: false
+                };
+        case 'UNDO_LAST_KEY_STROKE':
+            let transitionedRotors = transitionRotorSetByOneWithCarry(enigmaState.rotorConfig, -1);
+            let message = enigmaState.cumulativeOutput;
+            message = message.slice(0, message.length -1);
+            return {
+                ...enigmaState,
+                output: '',
+                cumulativeOutput: message,
+                rotorConfig: transitionedRotors,
+            }                             
         default:
             return enigmaState;
     }
@@ -62,7 +86,7 @@ const transitionRotorByOneWithoutCarry = (rotor: RotorStoreState, direction: 1 |
  * @param action 
  */
 const calculateEnigmaRotorSetState = (state: RotorStoreState[]) => {
-    let rotatedState = transitionRotorSetByOneWithCarry(state);
+    let rotatedState = transitionRotorSetByOneWithCarry(state, 1);
     return rotatedState;  
 }
 
@@ -79,16 +103,27 @@ const getInitialState = (rotors: RotorStoreState[], positions: string[]) => {
 }
 
 /**
+ * Get the initial state of the rotors for reset
+ * @param rotors
+ */
+const resetState = (rotors: RotorStoreState[]) => {
+    for(let i = rotors.length - 1; i >= 0; i--) {
+      rotors[i] = { ...rotors[i], offset: 0}
+    }
+    return rotors;
+}
+
+/**
  * Get the output value from the enigma
  * @param rotors 
  * @param reflectorConfig 
  * @param input 
  */
-const transitionRotorSetByOneWithCarry = (rotors: RotorStoreState[]) => {
+const transitionRotorSetByOneWithCarry = (rotors: RotorStoreState[], direction: 1 | -1) => {
     let carry = true;
     for(let i = rotors.length - 1; i >= 0; i--) {
         if (carry) {
-            rotors[i] = calculateEnigmaRotorState(rotors[i]);
+            rotors[i] = calculateEnigmaRotorState(rotors[i], direction);
             let currentRotorIndex = Constants.REVERSE_MAPPING[rotors[i].initialPostion] +  rotors[i].offset;
             carry = currentRotorIndex === 26;
         }
@@ -99,8 +134,9 @@ const transitionRotorSetByOneWithCarry = (rotors: RotorStoreState[]) => {
  * @param state 
  * @param action 
  */
-const calculateEnigmaRotorState = (state: RotorStoreState) => {
-    let newOffset = (state.offset + 1) % 26;
+const calculateEnigmaRotorState = (state: RotorStoreState, direction: 1 | -1) => {
+    let newOffset = (state.offset + direction) % 26;
+    newOffset = (newOffset < 0) ? (26 + newOffset) : newOffset;
     return {...state, offset: newOffset};
 }
 /**

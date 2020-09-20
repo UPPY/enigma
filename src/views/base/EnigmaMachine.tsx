@@ -1,11 +1,12 @@
 import React from 'react';
 import { Keyboard, IKeyboardProps } from './components/Keyboard';
-import './EnigmaMachine.css';
 import { ConfiguredRotorSet } from './components/RotorSet';
+import { EnigmaCommands, ConfiguredEnigmaCommands } from './components/EngimaCommands';
 import { EnigmaMachineState } from '../../stores/Stores';
 import { Dispatch } from 'redux';
 import { connect } from 'react-redux';
 import { CumulativeOutputDigitalCapture } from './components/OutputDigitalCapture'
+import './EnigmaMachine.css';
 
 /**
  * Map the application state to keyboard input
@@ -13,7 +14,8 @@ import { CumulativeOutputDigitalCapture } from './components/OutputDigitalCaptur
  */
 const mapStateToInputKeyboardProps = (state:EnigmaMachineState): IKeyboardProps => {
     return {
-        mode: 'input'
+        mode: 'input',
+        enabled: state.encryptionInProgress
     };
 };
 
@@ -24,7 +26,8 @@ const mapStateToInputKeyboardProps = (state:EnigmaMachineState): IKeyboardProps 
 const mapStateToOutputKeyboardProps = (state:EnigmaMachineState): IKeyboardProps => {
     return {
         mode: 'output',
-        highlight: state.output
+        enabled: state.encryptionInProgress,
+        highlight: state.output,
     };
 };
 
@@ -69,6 +72,7 @@ export const EnigmaMachine = () => {
              </div>   
              <div className = 'enigma-io-keyboard'>
                 <InputKeyBoard/>
+                <ConfiguredEnigmaCommands/>
             </div>  
              <div className = 'enigma-digital-display'>
                 <CumulativeOutputDigitalCapture/>

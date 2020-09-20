@@ -13,6 +13,11 @@ export interface IKeyboardProps {
     mode: 'input' | 'output';
 
     /**
+     * Is teh board enabled
+     */
+    enabled: boolean;
+
+    /**
      * Specifies the key to be highlighted
      */
     highlight?: string;
@@ -28,11 +33,11 @@ export interface IKeyboardProps {
  *  For now it lays it in format [9, 8, 9].
  *  @Todo Support flexible layout
  */
-export const Keyboard: React.FC<IKeyboardProps> = ({mode, highlight = '', transitionEnigmaMachine = () => {}}) => {
+export const Keyboard: React.FC<IKeyboardProps> = ({mode, highlight = '', enabled = false, transitionEnigmaMachine = () => {}}) => {
     const layout = [9, 8, 9];
     return <div className = 'enigma-keyboard'>
         {
-            getKeyBoardContent(layout, mode, highlight, transitionEnigmaMachine)
+            getKeyBoardContent(layout, mode, highlight, enabled, transitionEnigmaMachine)
         }
     </div>
 }
@@ -45,19 +50,22 @@ export const Keyboard: React.FC<IKeyboardProps> = ({mode, highlight = '', transi
 const getKeyBoardContent = (layout: Array<number> = [9, 8, 9], 
     mode: string,
     highlight: string,
+    enabled: boolean,
     transitionEnigmaMachine: Function): JSX.Element => {
     let counter = 0;
     return <div className = {(mode === 'input' ? 'input-texture': 'display-texture')}>
         {
             layout.map((columns, cIndex) => {
-                let keys = Array(columns).fill(0).map((_, index) => {
+                    let keys = Array(columns).fill(0).map((_, index) => {
                     let currentAlphabet = Constants.ALPHABETS[counter++];
+                    const displayAlphabetColor = (currentAlphabet === highlight) ? '#57003f' : '#FFFFFF';
+                    const keyClassName = enabled ? 'typewriter-key-enabled' : 'typewriter-key-disabled';
                     return (mode === 'input') ? 
-                    <a className = 'enigma-key typewriter-key' onClick = {() => {
-                        transitionEnigmaMachine(currentAlphabet);
+                    <a className = {`enigma-key ${keyClassName}`} onClick = {() => {
+                        enabled && transitionEnigmaMachine(currentAlphabet);
                     }} href = '#'> {currentAlphabet} </a>
                     : <div className = "enigma-key gloweffect-key" 
-                        style = {{ border: (currentAlphabet === highlight) ? 'solid 2px #FF0000' : 'solid 2px #1c87c9'}}>{currentAlphabet} </div>
+                        style = {{ color: displayAlphabetColor}}>{currentAlphabet} </div>
                 });
                 keys.push(<br></br>);
                 return keys;

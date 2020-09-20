@@ -22,7 +22,7 @@
     color: #eee0d3;
 }
 .rotor-inactive-display {
-    background: gray;
+    background: #bbbbbb;
     color: #eee0d3;
 }
 .rotor-nav-display {
@@ -41,7 +41,8 @@
     cursor: pointer;
 }
 .rotor-no-nav-cursor {
-    cursor: not-allowed;
+    cursor: default;
+    background-color: #bbbbbb;
 }
 .rotor-digit {
     vertical-align: middle;

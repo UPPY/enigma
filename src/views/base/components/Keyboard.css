@@ -1,22 +1,27 @@
-.typewriter-key {
+.typewriter-key-enabled {
     background-color: #000000;
     cursor: pointer;
+}
+.typewriter-key-disabled {
+    background-color: #bbbbbb;
+    cursor: default;
 }
 
 .gloweffect-key {
     background-color: #1c87c9;
 }
 .enigma-key {
-    -webkit-border-radius: 60px;
-    border-radius: 60px;
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
     border: none;
     color: #eeeeee;
     display: inline-block;
     font-family: sans-serif;
-    font-size: 24px;
+    font-size: 16px;
     padding-top: 24px;
+    font-weight: bolder;
     width: 80px;
-    height: 56px;
+    height: 36px;
     margin: 0.15em;
     text-align: center;
     text-decoration: none;
