@@ -1,10 +1,14 @@
 .enigma-machine-root {
-    display: grid;
     position: relative;
-    width: 100%;
-    grid-template-columns: 60vw auto;
-    grid-template-rows: auto auto;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    width: 50%;
 }
 .enigma-machine-root > div {
     padding: 1em;
+}
+.enigma-io-display {
+    width:fit-content;
+    height: fit-content;
 }

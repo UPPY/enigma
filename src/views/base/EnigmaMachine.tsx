@@ -10,7 +10,7 @@ import './EnigmaMachine.css';
 
 /**
  * Map the application state to keyboard input
- * @param state 
+ * @param state
  */
 const mapStateToInputKeyboardProps = (state:EnigmaMachineState): IKeyboardProps => {
     return {
@@ -21,7 +21,7 @@ const mapStateToInputKeyboardProps = (state:EnigmaMachineState): IKeyboardProps 
 
 /**
  * Map the application state to input keyboard
- * @param state 
+ * @param state
  */
 const mapStateToOutputKeyboardProps = (state:EnigmaMachineState): IKeyboardProps => {
     return {
@@ -33,7 +33,7 @@ const mapStateToOutputKeyboardProps = (state:EnigmaMachineState): IKeyboardProps
 
 /**
  * Map the application state to display board
- * @param dispatch 
+ * @param dispatch
  */
 const mapDispatchToInputKeyboardProps = (dispatch: Dispatch)  => {
     return {
@@ -64,19 +64,19 @@ export const EnigmaMachine = () => {
      * Create the UI for the enigma machine
      */
     return (<div className = "enigma-machine-root">
-            <div className = 'enigma-io-display'>
-                <DisplayBoard/>
-             </div> 
-            <div className = 'enigma-rotor-set'>
-                <ConfiguredRotorSet/>
-             </div>   
-             <div className = 'enigma-io-keyboard'>
-                <InputKeyBoard/>
-                <ConfiguredEnigmaCommands/>
-            </div>  
-             <div className = 'enigma-digital-display'>
+            <div className = 'enigma-digital-display'>
                 <CumulativeOutputDigitalCapture/>
             </div>
+            <div className = 'enigma-io-display'>
+                <DisplayBoard/>
+             </div>
+            <div className = 'enigma-io-keyboard'>
+                <InputKeyBoard/>
+                <ConfiguredEnigmaCommands/>
+            </div>
+            <div className = 'enigma-rotor-set'>
+                <ConfiguredRotorSet/>
+             </div>
         </div>);
 };
 

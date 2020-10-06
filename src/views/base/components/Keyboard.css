@@ -11,24 +11,67 @@
     background-color: #1c87c9;
 }
 .enigma-key {
-    -webkit-border-radius: 10px;
-    border-radius: 10px;
-    border: none;
-    color: #eeeeee;
-    display: inline-block;
-    font-family: sans-serif;
-    font-size: 16px;
-    padding-top: 24px;
-    font-weight: bolder;
-    width: 80px;
-    height: 36px;
-    margin: 0.15em;
+
+    font-family:Helvetica, sans-serif;
     text-align: center;
-    text-decoration: none;
+    text-decoration:none;
+    display:block;
+    position:relative;
+    padding:10px 10px;
+    width: 25px;
+    font-weight: bolder;
+    margin: 0.15em;
+    border-radius: 50%;
+    -webkit-border-radius: 10px;
+    display: inline-block;
+    border: solid;
+    border-color: #1f1f1d;
+    background-image: linear-gradient(#000000,#3a3939);
+    color: #eeeeee;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    text-shadow: 0px 1px 0px #000;
+    filter: dropshadow(color=#000, offx=0px, offy=1px);
+    -webkit-box-shadow:inset 0 1px 0 #4a4949, 0 10px 0 #000000;;
+    -moz-box-shadow:inset 0 1px 0 #4a4949, 0 10px 0 #000000;;
+    box-shadow: inset 0 1px 0 #4a4949, 0 10px 0 #000000;
+
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 50%;
+
 }
+
+.enigma-key:after{
+    content:"";
+    height:100%;
+    width:100%;
+    padding:4px;
+    position: absolute;
+    bottom:-15px;
+    left:-4px;
+    z-index:-1;
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+.enigma-key:active{
+    top:10px;
+    background-color:#F78900;
+
+    -webkit-box-shadow:inset 0 1px 0 #FFE5C4, inset 0 -3px 0 #915100;
+    -moz-box-shadow:inset 0 1px 0 #FFE5C4, inset 0 -3pxpx 0 #915100;
+    box-shadow:inset 0 1px 0 #FFE5C4, inset 0 -3px 0 #915100;
+}
+
 .display-texture {
-    background-image: url('/assets/display-bg.jpg');
+    transform: rotate(0deg) skewX(-10deg) translate(0,0);
+    transition: 0.5s;
 }
 .input-texture {
-    background-image: url('/assets/keyboard-bg.png');
+    transform: rotate(0deg) skewX(-10deg) translate(0,0);
+    transition: 0.5s;
+}
+.enigma-keyboard{
+    width: 100%;
+
 }

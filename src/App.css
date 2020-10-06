@@ -5,11 +5,10 @@ html, body {
 }
 
 div.enigma-app {
-  display: grid;
-  height: 100vh;
-  grid-template-rows: auto 1fr auto;
-  background: url('/assets/app-bg.jpg');
+  background: url('/assets/brown.jpg');
 }
 .enigma-app-header {
   max-height: 80px;
+  width: auto;
+
 }
